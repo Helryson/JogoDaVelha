@@ -62,4 +62,12 @@ public class Tabuleiro {
 		return marca(position) != null;
 	}
 	
+	public void marcaPosition(Position position, Marca marcas) {
+		if(casaOcupada(position)) {
+			throw new TabuleiroException("Casa já marcada");
+		}
+		marca[position.getLinha()][position.getColuna()] = marcas;
+		marcas.position = position;
+	}
+	
 }

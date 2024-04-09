@@ -11,4 +11,9 @@ public class Xs extends Marca{
 		super(tabuleiro);
 	}
 	
+	@Override
+	public String toString() {
+		return "X";
+	}
+	
 }
