@@ -9,21 +9,32 @@ public class Jogo {
 
 	private int turno = 0;
 	public boolean checkaVitoria;
-	String vencedor;
-	Tabuleiro tabuleiro = new Tabuleiro();
+	private String vencedor;
+	private Tabuleiro tabuleiro = new Tabuleiro();
 
 	public Jogo() {
+	}	
+	
+	public int getTurno() {
+		return turno;
+	}
+
+	public boolean isCheckaVitoria() {
+		return checkaVitoria;
 	}
 	
-	public void clearScreen() {
-		System.out.println("\033[H\033[2J");
-		System.out.flush();
+	public String getVencedor() {
+		return vencedor;
+	}
+	
+	public Tabuleiro getTabuleiro() {
+		return tabuleiro;
 	}
 	
 	public void printJogo() {
 		System.out.println();
 		for(int i=0; i<3; i++) {
-			System.out.print((0 + i) + " ");
+			System.out.print((0 + i) + "  ");
 			for(int j=0; j<3; j++) {
 				
 				//Acessando ao contrário com j e dps i pois assim fica melhor para o jogador definir a posição desejada
@@ -37,7 +48,7 @@ public class Jogo {
 			System.out.println();
 		}
 		System.out.println();
-		System.out.println("  0 1 2");
+		System.out.println("   0 1 2");
 	}
 
 	public void testaVitoria() {
@@ -87,8 +98,7 @@ public class Jogo {
 				vencedor = "O";
 			}
 		}
-
-		checkaVitoria = false;
+		
 		turno++;
 	}
 	
@@ -107,7 +117,6 @@ public class Jogo {
 		else {
 			tabuleiro.marcaPosition(p, o);
 		}
-		System.out.println("ola");
 	}
 	
 	public void marcaTabAux(Scanner sc) {
