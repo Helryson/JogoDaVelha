@@ -40,6 +40,8 @@ public class Tabuleiro {
 		return marca[linha][coluna];
 	}
 	
+	
+	//Retorna a posição da marca se ela existir
 	public Marca marca(Position position) {
 		if(!positionExiste(position)) {
 			throw new TabuleiroException("Posição indicada não existe no tabuleiro");
@@ -47,8 +49,9 @@ public class Tabuleiro {
 		return marca[position.getLinha()][position.getColuna()];
 	}
 	
+	//Verifica se a linha e a coluna existe dentro dos limites no tabuleiro
 	public boolean positionExiste(int row, int column) {
-		return row >= 0 && row < linha && column >=0 && column < coluna;
+		return row >= 0 && row < linha && column >= 0 && column < coluna;
 	}
 	
 	public boolean positionExiste(Position position) {
@@ -64,7 +67,7 @@ public class Tabuleiro {
 	
 	public void marcaPosition(Position position, Marca marcas) {
 		if(casaOcupada(position)) {
-			throw new TabuleiroException("Casa já marcada");
+			throw new TabuleiroException("Posição " + position.toString() + " já ocupada");
 		}
 		marca[position.getLinha()][position.getColuna()] = marcas;
 		marcas.position = position;

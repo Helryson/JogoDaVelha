@@ -1,5 +1,7 @@
 package tabuleiroJogo;
 
+import java.util.Scanner;
+
 import tabuleiro.Position;
 import tabuleiro.Tabuleiro;
 
@@ -7,6 +9,7 @@ public class Jogo {
 
 	private int turno = 0;
 	public boolean checkaVitoria;
+	String vencedor;
 	Tabuleiro tabuleiro = new Tabuleiro();
 
 	public Jogo() {
@@ -20,44 +23,46 @@ public class Jogo {
 	public void printJogo() {
 		System.out.println();
 		for(int i=0; i<3; i++) {
-			System.out.print((0 + i) + "  ");
+			System.out.print((0 + i) + " ");
 			for(int j=0; j<3; j++) {
-				if(tabuleiro.getMarca()[i][j] == null) {
-					System.out.println(" ");
+				
+				//Acessando ao contrário com j e dps i pois assim fica melhor para o jogador definir a posição desejada
+				if(tabuleiro.getMarca()[j][i] != null) {
+					System.out.print(tabuleiro.getMarca()[j][i].toString() + " ");
 				}
 				else {
-					System.out.println(tabuleiro.getMarca()[i][j].toString());
-				}
-				if(j < 2) {
-					System.out.println("|");
+					System.out.print("- ");
 				}
 			}
-			if(i < 2) {
-				System.out.println("_");
-			}
+			System.out.println();
 		}
-		
 		System.out.println();
 		System.out.println("  0 1 2");
 	}
 
 	public void testaVitoria() {
 		
+		//X começa no turno 0, se o turno for par(vez do X) entao irá verificar primeiro as colunas e depois ira verificar as linhas
 		if(turno % 2 == 0) {
 			for (int i = 0; i < 3; i++) {
 				if (tabuleiro.getMarca()[i][0] instanceof Xs && tabuleiro.getMarca()[i][1] instanceof Xs && tabuleiro.getMarca()[i][2] instanceof Xs) {
 					checkaVitoria = true;
+					vencedor = "X";
 				}
 				if (tabuleiro.getMarca()[0][i] instanceof Xs && tabuleiro.getMarca()[1][i] instanceof Xs && tabuleiro.getMarca()[2][i] instanceof Xs) {
 					checkaVitoria = true;
+					vencedor = "X";
 				}
 			}
 			
+			//Irá verificar as diagonais
 			if (tabuleiro.getMarca()[0][0] instanceof Xs && tabuleiro.getMarca()[1][1] instanceof Xs && tabuleiro.getMarca()[2][2] instanceof Xs) {
 				checkaVitoria = true;
+				vencedor = "X";
 			}
 			if (tabuleiro.getMarca()[0][2] instanceof Xs && tabuleiro.getMarca()[1][1] instanceof Xs && tabuleiro.getMarca()[2][0] instanceof Xs) {
 				checkaVitoria = true;
+				vencedor = "X";
 			}
 		}
 		
@@ -65,17 +70,21 @@ public class Jogo {
 			for (int i = 0; i < 3; i++) {
 				if (tabuleiro.getMarca()[i][0] instanceof Os && tabuleiro.getMarca()[i][1] instanceof Os && tabuleiro.getMarca()[i][2] instanceof Os) {
 					checkaVitoria = true;
+					vencedor = "O";
 				}
 				if (tabuleiro.getMarca()[0][i] instanceof Os && tabuleiro.getMarca()[1][i] instanceof Os && tabuleiro.getMarca()[2][i] instanceof Os) {
 					checkaVitoria = true;
+					vencedor = "O";
 				}
 			}
 			
 			if (tabuleiro.getMarca()[0][0] instanceof Os && tabuleiro.getMarca()[1][1] instanceof Os && tabuleiro.getMarca()[2][2] instanceof Os) {
 				checkaVitoria = true;
+				vencedor = "O";
 			}
 			if (tabuleiro.getMarca()[0][2] instanceof Os && tabuleiro.getMarca()[1][1] instanceof Os && tabuleiro.getMarca()[2][0] instanceof Os) {
 				checkaVitoria = true;
+				vencedor = "O";
 			}
 		}
 
@@ -97,6 +106,24 @@ public class Jogo {
 		}
 		else {
 			tabuleiro.marcaPosition(p, o);
+		}
+		System.out.println("ola");
+	}
+	
+	public void marcaTabAux(Scanner sc) {
+		String input = sc.nextLine();
+		
+		
+		//Verifica se o input contém mais do que dois caracteres
+		if(input.length() == 2){
+			String aux = input.substring(0, 1);
+			String aux1 = input.substring(1);
+			int row = Integer.parseInt(aux);
+			int column = Integer.parseInt(aux1);
+			marcaTabuleiro(row, column);
+		}
+		else {
+			throw new JogoException("Número inválido, tente uma coordenada válida");
 		}
 	}
 	
