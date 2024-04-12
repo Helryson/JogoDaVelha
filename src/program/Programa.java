@@ -18,12 +18,11 @@ public class Programa {
 				if(jogo.getTurno() % 2 == 0) {
 					System.out.println();
 					System.out.print("Vez do X, indique a posição: ");
+					jogo.marcaTabAux(sc);
 				}
 				else {
-					System.out.println();
-					System.out.print("Vez do O, indique a posição: ");
+					jogo.minimax(jogo.getTabuleiro(), jogo.jogadasRestantes(), jogo.isMaximizingPlayer());
 				}
-				jogo.marcaTabAux(sc);
 				jogo.testaVitoria();
 				
 				PrintAux.limpaTela();
@@ -39,12 +38,15 @@ public class Programa {
 		}
 		catch(JogoException e) {
 			System.out.println("Error: " + e.getMessage());
+			e.printStackTrace();
 		}
 		catch(NumberFormatException e) {
 			System.out.println("Error: " + e.getMessage());
+			e.printStackTrace();
 		}
 		catch(RuntimeException e) {
 			System.out.println("Error: " + e.getMessage());
+			e.printStackTrace();
 		}
 		finally {
 			jogo.printJogo();

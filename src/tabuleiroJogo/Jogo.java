@@ -147,5 +147,91 @@ public class Jogo {
 		}
 		return true;
 	}
+	
+	public int[] minimax(Tabuleiro tabuleiro, int profundidade, boolean maximizingPlayer) {
+        if (profundidade == 0 || estaCheio() || checkaVitoria == true) {
+            int score = avaliar(tabuleiro);
+            return new int[] {score, -1, -1};
+        }
+
+        if (maximizingPlayer) {
+            int bestScore = Integer.MIN_VALUE;
+            int[] bestMove = {-1, -1};
+
+            for (int i = 0; i < tabuleiro.getLinha(); i++) {
+                for (int j = 0; j < tabuleiro.getColuna(); j++) {
+                    if (tabuleiro.marca(i, j) == null) {
+                    	Os o = new Os(tabuleiro);
+                    	Position p = new Position(i, j);
+                        tabuleiro.marcaPosition(p, o); // Supondo que o jogador seja O
+                        int[] score = minimax(tabuleiro, profundidade - 1, false);
+                        tabuleiro.desmarcaPosition(p, o);;
+                        
+                        if (score[0] > bestScore) {
+                            bestScore = score[0];
+                            bestMove[0] = i;
+                            bestMove[1] = j;
+                        }
+                    }
+                }
+            }
+            return bestMove;
+        } else {
+            int bestScore = Integer.MAX_VALUE;
+            int[] bestMove = {-1, -1};
+
+            for (int i = 0; i < tabuleiro.getLinha(); i++) {
+                for (int j = 0; j < tabuleiro.getColuna(); j++) {
+                    if (tabuleiro.marca(i, j) == null) {
+                    	Xs x = new Xs(tabuleiro);
+                    	Position p = new Position(i, j);
+                    	if(!tabuleiro.casaOcupada(p)) {
+                    		tabuleiro.marcaPosition(p, x); // Supondo que o jogador seja X
+                    	}
+                        int[] score = minimax(tabuleiro, profundidade - 1, true);
+                        tabuleiro.desmarcaPosition(p, x);;
+                        
+                        if (score[0] < bestScore) {
+                            bestScore = score[0];
+                            bestMove[0] = i;
+                            bestMove[1] = j;
+                        }
+                    }
+                }
+            }
+            return bestMove;
+        }
+    }
+
+    public int avaliar(Tabuleiro tabuleiro) {
+        if (vencedor == "O") {
+            return 10;
+        } else if (vencedor == "X") {
+            return -10;
+        }
+        return 0; // Empate
+    }
+    
+    public int jogadasRestantes() {
+
+    	int count = 0;
+    	
+        for (int i = 0; i < tabuleiro.getLinha(); i++) {
+            for (int j = 0; j < tabuleiro.getColuna(); j++) {
+            	if(tabuleiro.marca(i, j) == null) {
+            		count++;
+            	}
+            }
+        }
+        return count;
+    }
+    
+    public boolean isMaximizingPlayer() {
+    	if(turno % 2 != 0) {
+    		return true;
+    	}
+    	return false;
+    }
+
 
 }

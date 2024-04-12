@@ -73,4 +73,12 @@ public class Tabuleiro {
 		marcas.position = position;
 	}
 	
+	public void desmarcaPosition(Position position, Marca marcas) {
+		if(!casaOcupada(position)) {
+			throw new TabuleiroException("Posição " + position.toString() + " não ocupada");
+		}
+		marca[position.getLinha()][position.getColuna()] = null;
+		marcas.position = null;
+	}
+	
 }
